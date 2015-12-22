@@ -36,6 +36,8 @@ ProfaneWords = c( # Similar to https://en.wikipedia.org/wiki/Seven_dirty_words
 # 'Words' like RT probably wont' be entered into the app so I wonder if I should
 # remove tweets that contain them?
 
+hostname = system('hostname', intern=T)
+
 SampleSize = 100000
 Verbose = F
 if (hostname == 'VM-EP-3')
@@ -96,7 +98,7 @@ hist(tokenInfoB$Tokens,breaks=c(0,10,20,30,40,50,100,300),xlab='Word Count',main
 hist(tokenInfoC$Tokens,breaks=c(0,10,20,30,40,50,100,300),xlab='Word Count',main='News')
 hist(tokenInfoT$Tokens,breaks=c(0,10,20,30,40,50,100,300),xlab='Word Count',main='Tweets')
 
-layout(matrix(c(1,4,2,5,3,6),nrow=2),heights=c(lcm(1), lcm(6)))
+layout(matrix(c(1,4,2,5,3,6),nrow=2),heights=c(lcm(1), lcm(8)))
 par(mar=c(0,0,0,0))
 plot.new()
 text(x=0.5,y=0.5,cex=2,'Blogs')
