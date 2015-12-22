@@ -89,14 +89,19 @@ BasicStats = data.frame(Source=c('Blogs','News','Tweets'),
                         LineCount=c(BlogsD@Dim[1],NewsD@Dim[1],TwitterD@Dim[1])
 )
 #   Source WordCount DistinctWordCount LineCount
-# 1  Blogs  36911104            380886    899288
-# 2   News  33487271            331769   1010242
-# 3 Tweets  29562101            419436   2360148
+# 1  Blogs  36,911,104            380,886     899,288
+# 2   News  33,487,271            331,769   1,010,242
+# 3 Tweets  29,562,101            419,436   2,360,148
 
-par(mfrow=c(1,3))
+par(mfrow=c(1,3),mar=3*c(1,1,1,1))
 hist(tokenInfoB$Tokens,breaks=c(0,10,20,30,40,50,100,300),xlab='Word Count',main='Blogs')
 hist(tokenInfoC$Tokens,breaks=c(0,10,20,30,40,50,100,300),xlab='Word Count',main='News')
 hist(tokenInfoT$Tokens,breaks=c(0,10,20,30,40,50,100,300),xlab='Word Count',main='Tweets')
+
+breaks=c(0,25,50,100,300)
+hist(tokenInfoB$Tokens,breaks=breaks,xlab='Word Count',main='Blogs')
+hist(tokenInfoC$Tokens,breaks=breaks,xlab='Word Count',main='News')
+hist(tokenInfoT$Tokens,breaks=breaks,xlab='Word Count',main='Tweets')
 
 layout(matrix(c(1,4,2,5,3,6),nrow=2),heights=c(lcm(1), lcm(8)))
 par(mar=c(0,0,0,0))
