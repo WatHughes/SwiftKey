@@ -4,7 +4,7 @@
 # install.packages('ngram') # Does not appear to be useful
 # library(ngram)
 # install.packages('quanteda')
-library(quanteda)
+require(quanteda)
 require(RColorBrewer)
 
 source('LoadTextFile.R')
@@ -47,7 +47,6 @@ if (hostname == 'VM-EP-3')
 }
 if (hostname == 'AJ')
 {
-    SampleSize = -1
     Verbose = T
 }
 
@@ -88,6 +87,9 @@ BasicStats = data.frame(Source=c('Blogs','News','Tweets'),
                         DistinctWordCount=c(BlogsD@Dim[2],NewsD@Dim[2],TwitterD@Dim[2]),
                         LineCount=c(BlogsD@Dim[1],NewsD@Dim[1],TwitterD@Dim[1])
 )
+BasicStats$AWC = BasicStats$WordCount / BasicStats$LineCount
+BasicStats$RatioDWC = BasicStats$DistinctWordCount / BasicStats$WordCount
+
 #   Source WordCount DistinctWordCount LineCount
 # 1  Blogs  36,911,104            380,886     899,288
 # 2   News  33,487,271            331,769   1,010,242
@@ -95,14 +97,30 @@ BasicStats = data.frame(Source=c('Blogs','News','Tweets'),
 
 par(mfrow=c(1,3),mar=3*c(1,1,1,1))
 hist(tokenInfoB$Tokens,breaks=c(0,10,20,30,40,50,100,300),xlab='Word Count',main='Blogs')
+abline(v=BasicStats$AWC[1],col='green',lwd=2)
+legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AWC[1])),text.col='darkgreen')
 hist(tokenInfoC$Tokens,breaks=c(0,10,20,30,40,50,100,300),xlab='Word Count',main='News')
+abline(v=BasicStats$AWC[2],col='green',lwd=2)
+legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AWC[2])),text.col='darkgreen')
 hist(tokenInfoT$Tokens,breaks=c(0,10,20,30,40,50,100,300),xlab='Word Count',main='Tweets')
+abline(v=BasicStats$AWC[3],col='green',lwd=2)
+legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AWC[3])),text.col='darkgreen')
 
+png(filename='ExploratoryHistograms.png',width=700,height=350,res=96)
+par(mfrow=c(1,3),mar=3*c(1,1,1,1))
 breaks=c(0,25,50,100,300)
 hist(tokenInfoB$Tokens,breaks=breaks,xlab='Word Count',main='Blogs')
+abline(v=BasicStats$AWC[1],col='green',lwd=2)
+legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AWC[1])),text.col='darkgreen')
 hist(tokenInfoC$Tokens,breaks=breaks,xlab='Word Count',main='News')
+abline(v=BasicStats$AWC[2],col='green',lwd=2)
+legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AWC[2])),text.col='darkgreen')
 hist(tokenInfoT$Tokens,breaks=breaks,xlab='Word Count',main='Tweets')
+abline(v=BasicStats$AWC[3],col='green',lwd=2)
+legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AWC[3])),text.col='darkgreen')
+dev.off()
 
+png(filename='ExploratoryWordClouds.png')
 layout(matrix(c(1,4,2,5,3,6),nrow=2),heights=c(lcm(1), lcm(8)))
 par(mar=c(0,0,0,0))
 plot.new()
@@ -114,4 +132,4 @@ text(x=0.5,y=0.5,cex=2,'Tweets')
 plot(BlogsD, max.words=100,colors=brewer.pal(6,'Dark2'),scale=c(8,.5))
 plot(NewsD, max.words=100,colors=brewer.pal(6,'Dark2'),scale=c(8,.5))
 plot(TwitterD, max.words=100,colors=brewer.pal(6,'Dark2'),scale=c(8,.5))
-
+dev.off()
