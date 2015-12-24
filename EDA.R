@@ -81,25 +81,25 @@ TwitterC=corpus(Twitter)
 # TwitterT = tokenize(TwitterC)
 tokenInfoT=summary(TwitterC)
 TwitterD = dfm(TwitterC)
-TwitterT1=tokenize(TwitterC)
-TwitterD1234 = dfm(TwitterC,ngrams=1:4)
-str(TwitterD)
-str(TwitterD1234)
-TwitterD@Dimnames$features[3]
-TwitterD1234@Dimnames$features[3]
-TwitterD1234@Dimnames$features[2265891]
-TwitterD1234@p[2265891]
-TwitterD1234@p[2265892]
-TwitterD1234@x[4323226]
-TwitterD1234@x[4323227]
-TwitterD1234@i[3715]
-TwitterD1234@i[3716]
-TwitterD1234@i[3717]
-TwitterD1234@i[3718]
-TwitterD1234@i[3714]
-grep('^a_case_of',TwitterD1234@Dimnames$features)
-grep('^a_case_of',TwitterD1234@Dimnames$features,value=T)
-colSums(TwitterD1234[,grep('^a_case_of',TwitterD1234@Dimnames$features)])
+# TwitterT1=tokenize(TwitterC)
+# TwitterD1234 = dfm(TwitterC,ngrams=1:4)
+# str(TwitterD)
+# str(TwitterD1234)
+# TwitterD@Dimnames$features[3]
+# TwitterD1234@Dimnames$features[3]
+# TwitterD1234@Dimnames$features[2265891]
+# TwitterD1234@p[2265891]
+# TwitterD1234@p[2265892]
+# TwitterD1234@x[4323226]
+# TwitterD1234@x[4323227]
+# TwitterD1234@i[3715]
+# TwitterD1234@i[3716]
+# TwitterD1234@i[3717]
+# TwitterD1234@i[3718]
+# TwitterD1234@i[3714]
+# grep('^a_case_of',TwitterD1234@Dimnames$features)
+# grep('^a_case_of',TwitterD1234@Dimnames$features,value=T)
+# colSums(TwitterD1234[,grep('^a_case_of',TwitterD1234@Dimnames$features)])
 
 BasicStats = data.frame(Source=c('Blogs','News','Tweets'),
                         DocumentCount=c(BlogsD@Dim[1],NewsD@Dim[1],TwitterD@Dim[1]),
@@ -110,38 +110,39 @@ BasicStats$AverageWC = BasicStats$WordCount / BasicStats$DocumentCount
 BasicStats$RatioDWC = BasicStats$DistinctWordCount / BasicStats$WordCount
 save(BasicStats,file='BasicStats.rda')
 
-#   Source WordCount DistinctWordCount LineCount
-# 1  Blogs  36,911,104            380,886     899,288
-# 2   News  33,487,271            331,769   1,010,242
-# 3 Tweets  29,562,101            419,436   2,360,148
+#   Source   DocumentCount  DistinctWordCount   WordCount AverageWC    RatioDWC
+# 1  Blogs         899,288            380,886  36,911,104  41.04481 0.010319009
+# 2   News       1,010,242            331,769  33,487,271  33.14777 0.009907317
+# 3 Tweets       2,360,148            419,436  29,562,101  12.52553 0.014188301
 
 par(mfrow=c(1,3),mar=3*c(1,1,1,1))
 hist(tokenInfoB$Tokens,breaks=c(0,10,20,30,40,50,100,300),xlab='Word Count',main='Blogs')
-abline(v=BasicStats$AWC[1],col='green',lwd=2)
-legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AWC[1])),text.col='darkgreen')
+abline(v=BasicStats$AverageWC[1],col='green',lwd=2)
+legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AverageWC[1])),text.col='darkgreen')
 hist(tokenInfoC$Tokens,breaks=c(0,10,20,30,40,50,100,300),xlab='Word Count',main='News')
-abline(v=BasicStats$AWC[2],col='green',lwd=2)
-legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AWC[2])),text.col='darkgreen')
+abline(v=BasicStats$AverageWC[2],col='green',lwd=2)
+legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AverageWC[2])),text.col='darkgreen')
 hist(tokenInfoT$Tokens,breaks=c(0,10,20,30,40,50,100,300),xlab='Word Count',main='Tweets')
-abline(v=BasicStats$AWC[3],col='green',lwd=2)
-legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AWC[3])),text.col='darkgreen')
+abline(v=BasicStats$AverageWC[3],col='green',lwd=2)
+legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AverageWC[3])),text.col='darkgreen')
 
 png(filename='ExploratoryHistograms.png',width=700,height=350,res=96)
 par(mfrow=c(1,3),mar=3*c(1,1,1,1))
-breaks=c(0,25,50,100,300)
+# breaks=c(0,25,50,100,300)
+breaks=c(0,10,20,30,40,50,100,300)
 hist(tokenInfoB$Tokens,breaks=breaks,xlab='Word Count',main='Blogs')
-abline(v=BasicStats$AWC[1],col='green',lwd=2)
-legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AWC[1])),text.col='darkgreen')
+abline(v=BasicStats$AverageWC[1],col='green',lwd=2)
+legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AverageWC[1])),text.col='darkgreen')
 hist(tokenInfoC$Tokens,breaks=breaks,xlab='Word Count',main='News')
-abline(v=BasicStats$AWC[2],col='green',lwd=2)
-legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AWC[2])),text.col='darkgreen')
+abline(v=BasicStats$AverageWC[2],col='green',lwd=2)
+legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AverageWC[2])),text.col='darkgreen')
 hist(tokenInfoT$Tokens,breaks=breaks,xlab='Word Count',main='Tweets')
-abline(v=BasicStats$AWC[3],col='green',lwd=2)
-legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AWC[3])),text.col='darkgreen')
+abline(v=BasicStats$AverageWC[3],col='green',lwd=2)
+legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AverageWC[3])),text.col='darkgreen')
 dev.off()
 
 png(filename='ExploratoryWordClouds.png',width=700,height=350,res=96)
-MaxWords = 75
+MaxWords = 50
 layout(matrix(c(1,4,2,5,3,6),nrow=2),heights=c(lcm(1), lcm(8)))
 par(mar=c(0,0,0,0))
 plot.new()
