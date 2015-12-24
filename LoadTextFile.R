@@ -21,6 +21,7 @@ LoadTextFile = function(FileName,DataDir='.',ObjectName=FileName,
     }
     if (SampleSize > 0)
     {
+        set.seed(SampleSize) # For reproducibility.
         ret = sample(ret, SampleSize)
     }
     assign(ObjectName,

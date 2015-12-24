@@ -81,14 +81,34 @@ TwitterC=corpus(Twitter)
 # TwitterT = tokenize(TwitterC)
 tokenInfoT=summary(TwitterC)
 TwitterD = dfm(TwitterC)
+TwitterT1=tokenize(TwitterC)
+TwitterD1234 = dfm(TwitterC,ngrams=1:4)
+str(TwitterD)
+str(TwitterD1234)
+TwitterD@Dimnames$features[3]
+TwitterD1234@Dimnames$features[3]
+TwitterD1234@Dimnames$features[2265891]
+TwitterD1234@p[2265891]
+TwitterD1234@p[2265892]
+TwitterD1234@x[4323226]
+TwitterD1234@x[4323227]
+TwitterD1234@i[3715]
+TwitterD1234@i[3716]
+TwitterD1234@i[3717]
+TwitterD1234@i[3718]
+TwitterD1234@i[3714]
+grep('^a_case_of',TwitterD1234@Dimnames$features)
+grep('^a_case_of',TwitterD1234@Dimnames$features,value=T)
+colSums(TwitterD1234[,grep('^a_case_of',TwitterD1234@Dimnames$features)])
 
 BasicStats = data.frame(Source=c('Blogs','News','Tweets'),
-                        WordCount=c(sum(BlogsD),sum(NewsD),sum(TwitterD)),
+                        DocumentCount=c(BlogsD@Dim[1],NewsD@Dim[1],TwitterD@Dim[1]),
                         DistinctWordCount=c(BlogsD@Dim[2],NewsD@Dim[2],TwitterD@Dim[2]),
-                        LineCount=c(BlogsD@Dim[1],NewsD@Dim[1],TwitterD@Dim[1])
+                        WordCount=c(sum(BlogsD),sum(NewsD),sum(TwitterD))
 )
-BasicStats$AWC = BasicStats$WordCount / BasicStats$LineCount
+BasicStats$AverageWC = BasicStats$WordCount / BasicStats$DocumentCount
 BasicStats$RatioDWC = BasicStats$DistinctWordCount / BasicStats$WordCount
+save(BasicStats,file='BasicStats.rda')
 
 #   Source WordCount DistinctWordCount LineCount
 # 1  Blogs  36,911,104            380,886     899,288
@@ -120,7 +140,8 @@ abline(v=BasicStats$AWC[3],col='green',lwd=2)
 legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AWC[3])),text.col='darkgreen')
 dev.off()
 
-png(filename='ExploratoryWordClouds.png')
+png(filename='ExploratoryWordClouds.png',width=700,height=350,res=96)
+MaxWords = 75
 layout(matrix(c(1,4,2,5,3,6),nrow=2),heights=c(lcm(1), lcm(8)))
 par(mar=c(0,0,0,0))
 plot.new()
@@ -129,7 +150,7 @@ frame()
 text(x=0.5,y=0.5,cex=2,'News')
 frame()
 text(x=0.5,y=0.5,cex=2,'Tweets')
-plot(BlogsD, max.words=100,colors=brewer.pal(6,'Dark2'),scale=c(8,.5))
-plot(NewsD, max.words=100,colors=brewer.pal(6,'Dark2'),scale=c(8,.5))
-plot(TwitterD, max.words=100,colors=brewer.pal(6,'Dark2'),scale=c(8,.5))
+plot(BlogsD, max.words=MaxWords,colors=brewer.pal(6,'Dark2'),scale=c(8,.5))
+plot(NewsD, max.words=MaxWords,colors=brewer.pal(6,'Dark2'),scale=c(8,.5))
+plot(TwitterD, max.words=MaxWords,colors=brewer.pal(6,'Dark2'),scale=c(8,.5))
 dev.off()
