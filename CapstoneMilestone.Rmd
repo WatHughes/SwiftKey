@@ -18,7 +18,7 @@ load('BasicStats.rda')
 BasicStats
 ```
 
-Note that the tweets data has a much lower average word count than the others and its ratio of distinct words to all words is much higher compared to the others.
+Note that the tweets data has a much lower average word count (AverageWC) than the others and its ratio of distinct words (RatioDWC) to all words is much higher compared to the others.
 
 To visualize the average word count distinction, review these histograms:
 ![aaa](ExploratoryHistograms.png)
@@ -34,7 +34,7 @@ I want my model to avoid suggesting profane words. I have defined a small set of
 
 The quanteda objects are large (double digit GB) enough that they can't be used directly to produce predictions in a timely fashion. Fortunately, the most common word sequences, which are called ngrams, account for much of the predictive value. I will dramatically prune low occurrance sequences from the training data. Note that I used sampling to develop my code, but trained the models on the entire corpus after removal of the profane documents.
 
-Predictions will be driven by ngrams computed using quanteda. I'll compute the most common 1, 2, 3, and 4 word ngrams so that I can reasonably predict the 4th word given 3. So called Stupd Back Off will be implemented, where 3 word ngrams are checked when there is no match for a 4 gram, etc.. Initial word guidance will be randomly chosen (frequency weighted) from the top few words for each mode's source data.
+Predictions will be driven by ngrams computed using quanteda. I'll compute the most common 1, 2, 3, and 4 word ngrams so that I can reasonably predict the 4th word given 3. So called Stupid Back Off will be implemented, where 3 word ngrams are checked when there is no match for a 4 word ngram, etc. Initial word guidance will be randomly chosen (frequency weighted) from the top few words for each mode's source data. Skip grams will not be implemented.
 
 My final application should be thought of as an introduction to this problem area, not "the solution" that one would really want. There are a number of ways to improve it. The models can be improved by increasing the range of training data. It would be especially helpful to include selections from additional sources, for instance text message data to improve tweet mode or book text data to improve normal mode. The functionality can be made more valuable by adding more modes and more languages. The Stupid Back Off model can be replaced with something more realistic. More can be precomputed to speed up processing. Partial word support could be added so that the suggestions change as each letter is typed by the user. 
 
