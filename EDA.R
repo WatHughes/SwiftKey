@@ -81,6 +81,11 @@ TwitterC=corpus(Twitter)
 # TwitterT = tokenize(TwitterC)
 tokenInfoT=summary(TwitterC)
 TwitterD = dfm(TwitterC)
+
+BlogsD4 = dfm(BlogsC,ngrams=4)
+NewsD4 = dfm(NewsC,ngrams=4)
+TwitterD4 = dfm(TwitterC,ngrams=4)
+
 # TwitterT1=tokenize(TwitterC)
 # TwitterD1234 = dfm(TwitterC,ngrams=1:4)
 # str(TwitterD)
@@ -100,6 +105,38 @@ TwitterD = dfm(TwitterC)
 # grep('^a_case_of',TwitterD1234@Dimnames$features)
 # grep('^a_case_of',TwitterD1234@Dimnames$features,value=T)
 # colSums(TwitterD1234[,grep('^a_case_of',TwitterD1234@Dimnames$features)])
+tail(sort(colSums(BlogsD4[,grep('^a_case_of',BlogsD4@Dimnames$features)])),6)
+tail(sort(colSums(NewsD4[,grep('^a_case_of',NewsD4@Dimnames$features)])),6)
+tail(sort(colSums(TwitterD4[,grep('^a_case_of',TwitterD4@Dimnames$features)])),6)
+Q2 = function(last3)
+{
+    pattern = paste0('^',last3,'_')
+    print(tail(sort(colSums(BlogsD4[,grep(pattern,BlogsD4@Dimnames$features)])),6))
+    print(tail(sort(colSums(NewsD4[,grep(pattern,NewsD4@Dimnames$features)])),6))
+    tail(sort(colSums(TwitterD4[,grep(pattern,TwitterD4@Dimnames$features)])),6)
+}
+Q2('a_case_of') # beer
+Q2('would_mean_the') # world
+Q2('make_me_the') # happiest
+
+Q2('struggling_but_the') # ** nada **; grep no help; Google and English suggest defense
+Q2('but_the') # truth -- not a choice
+
+Q2('date_at_the') # end/beverly ** Of the choices, grocery == 1? ** Wrong ** Try Movies based on English *** Wrong ***
+Q2('be_on_my') # way
+Q2('in_quite_some') # time
+
+Q2('with_his_little') # brother/sister, not choices; grep/Google no help; Eng -> fingers
+Q2('his_little') # Not choices
+Q2('little') # Not choices
+# FWIW unigrams suggest eyes:
+colSums(NewsD[,c('eyes','toes','fingers','ears')])+colSums(TwitterD[,c('eyes','toes','fingers','ears')])+colSums(BlogsD[,c('eyes','toes','fingers','ears')])
+#    eyes    toes fingers    ears
+#   16387    1285    4324    2692
+
+Q2('faith_during_the') # three/worship/last, not choices; grep no help; Google suggests bad
+Q2('you_must_be') # a, not a choice; no hints from grep. Google suggests insane or asleep
+Q2('') #
 
 BasicStats = data.frame(Source=c('Blogs','News','Tweets'),
                         DocumentCount=c(BlogsD@Dim[1],NewsD@Dim[1],TwitterD@Dim[1]),
@@ -118,13 +155,13 @@ save(BasicStats,file='BasicStats.rda')
 par(mfrow=c(1,3),mar=3*c(1,1,1,1))
 hist(tokenInfoB$Tokens,breaks=c(0,10,20,30,40,50,100,300),xlab='Word Count',main='Blogs')
 abline(v=BasicStats$AverageWC[1],col='green',lwd=2)
-legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AverageWC[1])),text.col='darkgreen')
+legend('right',legend=paste0('Avg. Word Count ',sprintf('%2.0f',BasicStats$AverageWC[1])),text.col='darkgreen')
 hist(tokenInfoC$Tokens,breaks=c(0,10,20,30,40,50,100,300),xlab='Word Count',main='News')
 abline(v=BasicStats$AverageWC[2],col='green',lwd=2)
-legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AverageWC[2])),text.col='darkgreen')
+legend('right',legend=paste0('Avg. Word Count ',sprintf('%2.0f',BasicStats$AverageWC[2])),text.col='darkgreen')
 hist(tokenInfoT$Tokens,breaks=c(0,10,20,30,40,50,100,300),xlab='Word Count',main='Tweets')
 abline(v=BasicStats$AverageWC[3],col='green',lwd=2)
-legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AverageWC[3])),text.col='darkgreen')
+legend('right',legend=paste0('Avg. Word Count ',sprintf('%2.0f',BasicStats$AverageWC[3])),text.col='darkgreen')
 
 png(filename='ExploratoryHistograms.png',width=700,height=350,res=96)
 par(mfrow=c(1,3),mar=3*c(1,1,1,1))
@@ -132,13 +169,13 @@ par(mfrow=c(1,3),mar=3*c(1,1,1,1))
 breaks=c(0,10,20,30,40,50,100,300)
 hist(tokenInfoB$Tokens,breaks=breaks,xlab='Word Count',main='Blogs')
 abline(v=BasicStats$AverageWC[1],col='green',lwd=2)
-legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AverageWC[1])),text.col='darkgreen')
+legend('right',legend=paste0('Avg. Word Count ',sprintf('%2.0f',BasicStats$AverageWC[1])),text.col='darkgreen')
 hist(tokenInfoC$Tokens,breaks=breaks,xlab='Word Count',main='News')
 abline(v=BasicStats$AverageWC[2],col='green',lwd=2)
-legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AverageWC[2])),text.col='darkgreen')
+legend('right',legend=paste0('Avg. Word Count ',sprintf('%2.0f',BasicStats$AverageWC[2])),text.col='darkgreen')
 hist(tokenInfoT$Tokens,breaks=breaks,xlab='Word Count',main='Tweets')
 abline(v=BasicStats$AverageWC[3],col='green',lwd=2)
-legend('right',legend=paste0('Ave. Word Count ',sprintf('%2.0f',BasicStats$AverageWC[3])),text.col='darkgreen')
+legend('right',legend=paste0('Avg. Word Count ',sprintf('%2.0f',BasicStats$AverageWC[3])),text.col='darkgreen')
 dev.off()
 
 png(filename='ExploratoryWordClouds.png',width=700,height=350,res=96)
