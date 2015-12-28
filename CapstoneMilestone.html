@@ -70,7 +70,7 @@ img {
 
 <div id="summary" class="section level1">
 <h1>Summary</h1>
-<p>I will build a web application that supports English language keyboard users by predicting the next word given any words the user has typed so far. There will be 2 modes, ‘Tweet’ mode, and ‘Normal’ mode. Each mode will run the same code but they will use different models for prediction. The models will learn from appropriate writing samples. The Tweet mode will be trained against a selection of actual tweets. The Normal mode will be trained against a selection of news stories and blog posts.</p>
+<p>I will build a web application that supports English language keyboard users by predicting the next word given any words the user has typed so far. There will be 2 modes, ‘Tweet’ mode, and ‘Normal’ mode. Each mode will run the same code but they will use different models for prediction. The models will learn from appropriate writing samples provided for this capstone. The Tweet mode will be trained against a selection of actual tweets. The Normal mode will be trained against a selection of news stories and blog posts.</p>
 </div>
 <div id="data" class="section level1">
 <h1>Data</h1>
@@ -90,6 +90,7 @@ img {
 <p>The quanteda objects are large (double digit GB) enough that they can’t be used directly to produce predictions in a timely fashion. Fortunately, the most common word sequences, which are called ngrams, account for much of the predictive value. I will dramatically prune low occurrance sequences from the training data. Note that I used sampling to develop my code, but trained the models on the entire corpus after removal of the profane documents.</p>
 <p>Predictions will be driven by ngrams computed using quanteda. I’ll compute the most common 1, 2, 3, and 4 word ngrams so that I can reasonably predict the 4th word given 3. So called Stupid Back Off will be implemented, where 3 word ngrams are checked when there is no match for a 4 word ngram, etc. Initial word guidance will be randomly chosen (frequency weighted) from the top few words for each mode’s source data. Skip grams will not be implemented.</p>
 <p>My final application should be thought of as an introduction to this problem area, not “the solution” that one would really want. There are a number of ways to improve it. The models can be improved by increasing the range of training data. It would be especially helpful to include selections from additional sources, for instance text message data to improve tweet mode or book text data to improve normal mode. The functionality can be made more valuable by adding more modes and more languages. The Stupid Back Off model can be replaced with something more realistic. More can be precomputed to speed up processing. Partial word support could be added so that the suggestions change as each letter is typed by the user.</p>
+<p>My top priority for enhancements, if time permits, will be incorporating additional data. For instance, normal mode will be enhanced using some of the free data from the Corpus of Contemporary American English.</p>
 <p>The application will be written in R and built in Shiny. It will be hosted on RStudio’s Shiny servers.</p>
 </div>
 <div id="acknowledgements-and-notes" class="section level1">
