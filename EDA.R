@@ -6,6 +6,7 @@
 # install.packages('quanteda')
 require(quanteda)
 require(RColorBrewer)
+# install.packages('DT')
 
 source('LoadTextFile.R')
 
