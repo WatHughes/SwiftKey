@@ -30,12 +30,12 @@ loadData <- function()
 # Shiny app with 3 fields that the user can submit data for
 shinyApp(
     ui = fluidPage(
-        DT::dataTableOutput('responses', width = 300),
-        tags$hr(),
-        textInput('name', 'Name', ''),
-        checkboxInput('used_shiny', 'I\'ve built a Shiny app in R before', F),
-        sliderInput('r_num_years', 'Number of years using R', 0, 25, 2, ticks = F),
-        actionButton('submit', 'Submit')
+        textInput('name', 'Your phrase', '')
+        ,actionButton('submit', 'Predict Next Word')
+        ,tags$hr()
+        ,DT::dataTableOutput('responses')#, width = 300)
+        ,checkboxInput('used_shiny', 'I\'ve built a Shiny app in R before', F)
+        ,sliderInput('r_num_years', 'Number of years using R', 0, 25, 2, ticks = F)
     ),
     server = function(input, output, session)
     {
@@ -57,6 +57,10 @@ shinyApp(
         output$responses <- DT::renderDataTable({
             input$submit
             loadData()
-        })
+        }
+        ,server=F
+        ,caption='Predition History'
+        ,callback = JS('table.page("last").draw(false);')
+        )
     }
 )
