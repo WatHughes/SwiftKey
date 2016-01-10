@@ -8,6 +8,8 @@ require(quanteda)
 require(RColorBrewer)
 # install.packages('DT')
 # install.packages('shinyBS')
+# install.packages('digest')
+devtools::install_github("ebailey78/shinyBS")
 
 source('LoadTextFile.R')
 
