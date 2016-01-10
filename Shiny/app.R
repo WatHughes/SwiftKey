@@ -46,21 +46,23 @@ shinyApp(
         })
 
         # When the Submit button is clicked, save the form data
-        observeEvent(input$submit,
-            {
+        observeEvent(
+            input$submit
+            ,{
                 saveData(formData())
             }
         )
 
         # Show the previous responses
         # (update with current response when Submit is clicked)
-        output$responses <- DT::renderDataTable({
-            input$submit
-            loadData()
-        }
-        ,server=F
-        ,caption='Predition History'
-        ,callback = JS('table.page("last").draw(false);')
+        output$responses <- DT::renderDataTable(
+            {
+                input$submit
+                loadData()
+            }
+            ,server=F
+            ,caption='Predition History'
+            ,callback = JS('table.page("last").draw(false);')
         )
     }
 )
