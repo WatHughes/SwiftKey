@@ -7,6 +7,7 @@
 require(quanteda)
 require(RColorBrewer)
 # install.packages('DT')
+# install.packages('shinyBS')
 
 source('LoadTextFile.R')
 

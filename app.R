@@ -1,98 +1,56 @@
+# From https://ebailey78.github.io/shinyBS/docs/Modals.html
+
 library(shiny)
+library(shinyBS)
 
-# From https://gist.github.com/ijlyttle/9ace92f4f56246375859
+shinyApp(
+ ui =
+ fluidPage(
+   sidebarLayout(
+     sidebarPanel(
+       sliderInput("bins",
+                   "Number of bins:",
+                   min = 1,
+                   max = 50,
+                   value = 30),
+       actionButton("tabBut", "View Table")
+     ),
 
-#' modalButton
-#'
-#' Creates a modal dialog box. \code{header} and \code{content} can
-#' include shiny inputs and outputs.
-#'
-#' @param inputId       Specifies the input slot that will be used to access the value.
-#' @param label         The contents of the button or link–usually a text label, but you could also use any other HTML, like an image.
-#' @param icon          An optional icon to appear on the button.
-#' @param header   HTML for the header
-#' @param content  HTML for the content
-#'
-#' @return html for modal button and window
-#' @export
-#'
-#' @example
-#' # In ui.R
-#' modalButton("helpModal", "", icon = icon("info-circle"),
-#'   header = tags$h3("Help for my app"),
-#'   content = tags$p("Some detailed help"))
-#'
-modalButton <-
-  function(inputId, label, icon = NULL, header = "", content = "")
-  {
-    # reference: http://getbootstrap.com/2.3.2/javascript.html#modals
+     mainPanel(
+       plotOutput("distPlot"),
+       bsModal("modalExample", "Data Table", "tabBut", size = "large",
+         dataTableOutput("distTable"))
+     )
+   )
+ ),
+ server =
+ function(input, output, session) {
 
-    # create the button
-    button <- tags$button(
-      type = "button",
-      class = "btn btn-info",
-      `data-toggle` = "modal",
-      `data-target` = paste0("#", inputId, sep = ""),
-      list(icon, label)
-    )
+   output$distPlot <- renderPlot({
 
-    # create the window
-    window <- tags$div(
-      id = inputId,
-      class = "modal hide fade",
-      tabindex = "-1",
-      role = "dialog",
-      `aria-labelledby` = paste0(inputId, "Label"),
-      `aria-hidden` = "true",
-      tags$div(
-        class = "modal-header",
-        tags$button(
-          type = "button",
-          class = "close",
-          `data-dismiss` = "modal",
-          `aria-hidden` = "true",
-          "x"
-        ),
-        tags$html(id = paste0(inputId, "Label"), header)
-      ),
-      tags$div(
-        class = "modal-body",
-        content
-      ),
-      tags$div(
-        class = "modal-footer",
-        tags$button(
-          class = "btn",
-          `data-dismiss` = "modal",
-          `aria-hidden` = "true",
-          "Close"
-        )
-      )
-    )
+     x    <- faithful[, 2]
+     bins <- seq(min(x), max(x), length.out = input$bins + 1)
 
-    tags$html(button, window)
-  }
+     # draw the histogram with the specified number of bins
+     hist(x, breaks = bins, col = 'darkgray', border = 'white')
 
-modalButtonApp <- shinyApp(
+   })
 
-  ui = fluidPage(
-    fluidRow(
-      column(
-        width = 2,
-        modalButton(
-          "myModal",
-          label = "click me",
-          icon = icon("info-circle"),
-          header = tags$h3("Help!"),
-          content = tags$html(
-            tags$p("I need somebody"),
-            tags$h3("Help!"),
-            tags$p("Not just anybody")
-          )
-        )
-      )
-    )
-  ),
+   output$distTable <- renderDataTable({
 
-  server = function(input, output, session){}
+     x    <- faithful[, 2]
+     bins <- seq(min(x), max(x), length.out = input$bins + 1)
+
+     # draw the histogram with the specified number of bins
+     tab <- hist(x, breaks = bins, plot = FALSE)
+     tab$breaks <- sapply(seq(length(tab$breaks) - 1), function(i) {
+       paste0(signif(tab$breaks[i], 3), "-", signif(tab$breaks[i+1], 3))
+     })
+     tab <- as.data.frame(do.call(cbind, tab))
+     colnames(tab) <- c("Bins", "Counts", "Density")
+     return(tab[, 1:3])
+
+   }, options = list(pageLength=10))
+
+ }
 )

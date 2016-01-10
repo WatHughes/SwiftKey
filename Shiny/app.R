@@ -4,7 +4,7 @@ require(shiny)
 require(DT)
 
 # Define the fields we want to save from the form
-fields <- c('name','used_shiny','r_num_years')
+fields <- c('phrase','used_shiny','r_num_years')
 
 saveData <- function(data)
 {
@@ -30,12 +30,19 @@ loadData <- function()
 # Shiny app with 3 fields that the user can submit data for
 shinyApp(
     ui = fluidPage(
-        textInput('name', 'Your phrase', '')
+        textInput('phrase', 'Your phrase', '')
         ,actionButton('submit', 'Predict Next Word')
         ,tags$hr()
         ,DT::dataTableOutput('responses')#, width = 300)
         ,checkboxInput('used_shiny', 'I\'ve built a Shiny app in R before', F)
         ,sliderInput('r_num_years', 'Number of years using R', 0, 25, 2, ticks = F)
+        ,bsModal('ModalPrediction'
+                 ,'The Prediction'
+                 ,'submit', size = "large"
+                 ,tags$p('The predicted next word is "the". Hit "Close" to accept that or
+                         enter the correct word then hit "Close".')
+                 ,textInput('NextWord','The next word will be','the')
+            )
     ),
     server = function(input, output, session)
     {
