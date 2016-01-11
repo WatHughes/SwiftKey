@@ -9,7 +9,7 @@ require(RColorBrewer)
 # install.packages('DT')
 # install.packages('shinyBS')
 # install.packages('digest')
-devtools::install_github("ebailey78/shinyBS")
+# devtools::install_github("ebailey78/shinyBS") # Didn't work out for me.
 
 source('LoadTextFile.R')
 
