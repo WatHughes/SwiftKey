@@ -1,4 +1,4 @@
-# Adopted from shiny.rstudio.com/articles/persistent-data-storage.html
+# Heavily adapted from shiny.rstudio.com/articles/persistent-data-storage.html
 
 require(shiny)
 require(DT)
@@ -6,8 +6,6 @@ require(shinyBS)
 
 # Define the fields we want to display in the DataTable
 fields <- c('Phrase','NextWord','Prediction','Prediction Match','Correct Matches')
-
-CumulativeCorrect <<- 0
 
 saveData <- function(data)
 {
@@ -30,6 +28,7 @@ loadData <- function()
     }
 }
 
+# This returns the correct value for each field in the next row of the DataTable.
 FieldToDatum = function(input, FieldName, Prediction, Actual)
 {
     if (FieldName == 'Prediction')
@@ -41,7 +40,14 @@ FieldToDatum = function(input, FieldName, Prediction, Actual)
         datum = tolower(Prediction) == tolower(Actual)
         if (datum)
         {
-            CumulativeCorrect <<- CumulativeCorrect + 1
+            if (exists('CumulativeCorrect'))
+            {
+                CumulativeCorrect <<- CumulativeCorrect + 1
+            }
+            else
+            {
+                CumulativeCorrect <<- 1
+            }
         }
         datum
     }
@@ -53,26 +59,64 @@ FieldToDatum = function(input, FieldName, Prediction, Actual)
     {
         input[[FieldName]]
     }
-}
+} # FieldToDatum
 
 # Shiny app with 3 fields that the user can predict data for
-shinyApp(
-    ui = fluidPage(
-        textInput('Phrase', 'Your phrase', '')
-        ,actionButton('predict', 'Predict Next Word')
-        ,tags$hr()
-        ,DT::dataTableOutput('responses')#, width = 300)
-        ,checkboxInput('used_shiny', 'I\'ve built a Shiny app in R before', F)
-        ,sliderInput('r_num_years', 'Number of years using R', 0, 25, 2, ticks = F)
-        ,bsModal('ModalPrediction'
-                 ,'The Prediction'
-                 ,'predict', size='large'#,close.button=F
-                 ,tags$p('Accept or correct the predicted word then hit "Close".')
-                 ,verbatimTextOutput('CurrentPhrase')
-                 ,textInput('NextWord','The next word will be','the')
-                 ,actionButton('accept','Accept Displayed Word')
-            )
-    ),
+shinyApp(ui = fluidPage(
+    tabsetPanel
+    (
+        type = 'tabs'
+        ,tabPanel
+        (
+            'Documentation'
+            ,titlePanel('Application Documentation and Background')
+            ,br()
+            ,'This application helps authors who are stuck for an idea for the next word.'
+            ,br(),br()
+            ,'There are two modes. Each provides help for a distinct writing style.'
+            ,'The first mode helps users of'
+            ,'Twitter compose their Tweets.'
+            ,'The second mode helps with longer and more formal pieces of writing.'
+            ,'Each mode is available on its on tab. The user can go back and forth as needed.'
+            ,br(),br()
+            ,'The application also keeps track of everything the author writes, the'
+            ,'predicted next words, and the actual word chosen by the user. That'
+            ,'information is on the last tab.'
+            ,br(),br()
+            ,'This application was developed as part of the Johns Hopkins University'
+            ,'Data Science Specialiation. For more info: https://www.coursera.org/specializations/jhu-data-science'
+            ,br(),br()
+        ), # tabPanel - Documentation
+        tabPanel
+        (
+            'Tweet Helper'
+            ,textInput('Phrase', 'Your phrase', '')
+            ,actionButton('predict', 'Predict Next Word')
+            ,tags$hr()
+            ,checkboxInput('used_shiny', 'I\'ve built a Shiny app in R before', F)
+            ,sliderInput('r_num_years', 'Number of years using R', 0, 25, 2, ticks = F)
+            ,bsModal('ModalPrediction'
+                     ,'The Prediction'
+                     ,'predict', size='large'#,close.button=F
+                     ,tags$p('Accept or correct the predicted word then hit "Close".')
+                     ,verbatimTextOutput('CurrentPhrase')
+                     ,textInput('NextWord','The next word will be','the')
+                     ,actionButton('accept','Accept Displayed Word')
+                )
+        ), # tabPanel - Tweet
+        tabPanel
+        (
+            'General Writing Helper'
+            ,br(),br()
+            ,'TBD'
+        ), # tabPanel - General
+        tabPanel
+        (
+            'Writing and Prediction History'
+            ,tags$hr()
+            ,DT::dataTableOutput('responses')#, width = 300)
+        ) # tabPanel - DT
+    ) ), # tabsetPanel fluidpage
     server = function(input, output, session)
     {
         # Whenever a field is filled, aggregate all form data
