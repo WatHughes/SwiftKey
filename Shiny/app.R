@@ -65,10 +65,10 @@ FieldToDatum = function(input, FieldName, Prediction, Actual)
 shinyApp(ui = fluidPage(
     tabsetPanel
     (
-        type = 'tabs'
+        type='tabs',id='tabs'
         ,tabPanel
         (
-            'Documentation'
+            'Documentation',value='Doc'
             ,titlePanel('Application Documentation and Background')
             ,br()
             ,'This application helps authors who are stuck for an idea for the next word.'
@@ -79,22 +79,32 @@ shinyApp(ui = fluidPage(
             ,'The second mode helps with longer and more formal pieces of writing.'
             ,'Each mode is available on its on tab. The user can go back and forth as needed.'
             ,br(),br()
-            ,'The application also keeps track of everything the author writes, the'
-            ,'predicted next words, and the actual word chosen by the user. That'
+            ,'The application also keeps track of everything the author writes, each'
+            ,'predicted next word, and each actual word chosen by the user. That'
             ,'information is on the last tab.'
             ,br(),br()
+            ,'To get started, pick a mode from the tab bar, above.'
+            ,'Starting writing a phrase in the indicated box. When stuck for a word,'
+            ,'use the Predict button to get a suggestion. You can then either accept that'
+            ,'or enter a better word. When happy with the word, press the Accept button.'
+            ,'When you no longer need a suggestion for your next word, press the Close button.'
+            ,br(),br()
             ,'This application was developed as part of the Johns Hopkins University'
-            ,'Data Science Specialiation. For more info: https://www.coursera.org/specializations/jhu-data-science'
+            ,'Data Science Specialiation. For more info: '
+            ,tags$a(href='https://www.coursera.org/specializations/jhu-data-science','JHU Data Science'),'.'
+            ,br(),br()
+            ,'Thanks to Hans Christensen of HC Corpora for the data (via Coursera:'
+            ,tags$a(href='https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip','Coursera-SwiftKey.zip'),')'
+            ,'used to train the models that drive the predictions. For more information about this data:'
+            ,tags$a(href='http://www.corpora.heliohost.org/','Corpora'),'.'
             ,br(),br()
         ), # tabPanel - Documentation
         tabPanel
         (
-            'Tweet Helper'
+            'Tweet Helper',value='Tweet'
             ,textInput('Phrase', 'Your phrase', '')
             ,actionButton('predict', 'Predict Next Word')
             ,tags$hr()
-            ,checkboxInput('used_shiny', 'I\'ve built a Shiny app in R before', F)
-            ,sliderInput('r_num_years', 'Number of years using R', 0, 25, 2, ticks = F)
             ,bsModal('ModalPrediction'
                      ,'The Prediction'
                      ,'predict', size='large'#,close.button=F
@@ -106,13 +116,13 @@ shinyApp(ui = fluidPage(
         ), # tabPanel - Tweet
         tabPanel
         (
-            'General Writing Helper'
+            'General Writing Helper',value='General'
             ,br(),br()
             ,'TBD'
         ), # tabPanel - General
         tabPanel
         (
-            'Writing and Prediction History'
+            'Writing and Prediction History',value='History'
             ,tags$hr()
             ,DT::dataTableOutput('responses')#, width = 300)
         ) # tabPanel - DT
@@ -146,7 +156,15 @@ shinyApp(ui = fluidPage(
             }
         )
 
-                # Show the previous responses
+        observeEvent(
+            input$tabs
+            ,{
+                # Insert code to lode selected model
+                print(input$tabs)
+            }
+        )
+
+        # Show the previous responses
         # (update with current response when predict is clicked)
         output$responses <- DT::renderDataTable(
             {
