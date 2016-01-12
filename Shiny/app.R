@@ -5,7 +5,7 @@ require(DT)
 require(shinyBS)
 
 # Define the fields we want to display in the DataTable
-fields <- c('Phrase','NextWord','Prediction','Prediction Match','Correct Matches')
+fields <- c('PhraseT','NextWord','Prediction','Prediction Match','Correct Matches')
 
 saveData <- function(data)
 {
@@ -31,7 +31,15 @@ loadData <- function()
 # This returns the correct value for each field in the next row of the DataTable.
 FieldToDatum = function(input, FieldName, Prediction, Actual)
 {
-    if (FieldName == 'Prediction')
+    if (FieldName == 'Phrase')
+    {
+        input[['PhraseT']]
+    }
+    else if (FieldName == 'NextWord')
+    {
+        input[['NextWordT']]
+    }
+    else if (FieldName == 'Prediction')
     {
         Prediction
     }
@@ -77,7 +85,7 @@ shinyApp(ui = fluidPage(
             ,'The first mode helps users of'
             ,'Twitter compose their Tweets.'
             ,'The second mode helps with longer and more formal pieces of writing.'
-            ,'Each mode is available on its on tab. The user can go back and forth as needed.'
+            ,'Each mode is available on its own tab. The user can go back and forth as needed.'
             ,br(),br()
             ,'The application also keeps track of everything the author writes, each'
             ,'predicted next word, and each actual word chosen by the user. That'
@@ -102,16 +110,22 @@ shinyApp(ui = fluidPage(
         tabPanel
         (
             'Tweet Helper',value='Tweet'
-            ,textInput('Phrase', 'Your phrase', '')
-            ,actionButton('predict', 'Predict Next Word')
+            ,br()
+            ,textInput('PhraseT', 'Please enter your phrase in this box:', width='90%')
+            ,br()
+            ,p(strong('Once your phrase has been entered, please press this button to retrieve a suggested next word:'))
+            ,actionButton('predictT', 'Predict Next Word')
             ,tags$hr()
             ,bsModal('ModalPrediction'
-                     ,'The Prediction'
-                     ,'predict', size='large'#,close.button=F
-                     ,tags$p('Accept or correct the predicted word then hit "Close".')
-                     ,verbatimTextOutput('CurrentPhrase')
-                     ,textInput('NextWord','The next word will be','the')
-                     ,actionButton('accept','Accept Displayed Word')
+                ,'The Prediction'
+                ,'predictT', size='large'#,close.button=F
+                ,tags$p(strong('Your phase so far:'))
+                ,verbatimTextOutput('CurrentPhrase')
+                ,tags$p(strong('If needed correct the predicted word. Press Accept to add
+                               the displayed word to the phrase. When finished adding to
+                               the phrase, press Close.'))
+                ,textInput('NextWordT','The next word will be:','the')
+                ,actionButton('acceptT','Accept Displayed Word')
                 )
         ), # tabPanel - Tweet
         tabPanel
@@ -122,8 +136,8 @@ shinyApp(ui = fluidPage(
         ), # tabPanel - General
         tabPanel
         (
-            'Writing and Prediction History',value='History'
-            ,tags$hr()
+            'Phrase and Prediction History',value='History'
+            ,br()
             ,DT::dataTableOutput('responses')#, width = 300)
         ) # tabPanel - DT
     ) ), # tabsetPanel fluidpage
@@ -137,22 +151,22 @@ shinyApp(ui = fluidPage(
 
         # When the word is accepted clicked, save the form data and update the phrase.
         observeEvent(
-            input$accept
+            input$acceptT
             ,{
-                ActualWord <<- input[['NextWord']]
+                ActualWord <<- input[['NextWordT']]
                 saveData(formData())
-                NewPhrase = paste0(input[['Phrase']],' ',ActualWord)
-                updateTextInput(session,'Phrase',value=NewPhrase)
+                NewPhrase = paste0(input[['PhraseT']],' ',ActualWord)
+                updateTextInput(session,'PhraseT',value=NewPhrase)
                 PredictedWord <<- 'xyzzy2'
-                updateTextInput(session,'NextWord',value=PredictedWord)
+                updateTextInput(session,'NextWordT',value=PredictedWord)
             }
         )
 
         observeEvent(
-            input$predict
+            input$predictT
             ,{
                 PredictedWord <<- 'xyzzy1'
-                updateTextInput(session,'NextWord',value=PredictedWord)
+                updateTextInput(session,'NextWordT',value=PredictedWord)
             }
         )
 
@@ -160,7 +174,8 @@ shinyApp(ui = fluidPage(
             input$tabs
             ,{
                 # Insert code to lode selected model
-                print(input$tabs)
+                CurrentTab <<- input$tabs
+                print(CurrentTab)
             }
         )
 
@@ -168,13 +183,13 @@ shinyApp(ui = fluidPage(
         # (update with current response when predict is clicked)
         output$responses <- DT::renderDataTable(
             {
-                input$accept
+                input$acceptX
                 loadData()
             }
             ,server=F # Otherwise our JS call, below, to show the most recent data is useless.
             ,caption='Predition History'
             ,callback = JS('table.page("last").draw(false);')
         )
-    output$CurrentPhrase = renderText(input[['Phrase']])
+    output$CurrentPhrase = renderText(input[['PhraseT']])
     }
 )
