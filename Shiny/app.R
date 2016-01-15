@@ -5,10 +5,10 @@ require(DT)
 require(shinyBS)
 
 # Define the fields we want to display in the DataTable:
-DisplayFields <- c('Phrase','Next Word','Prediction','Match?','Match Count')
+DisplayFields <- c('Phrase','Next Word','Prediction','Match?','Match Count','Mode')
 # Define the fields we want to save from input:
-InputFieldsT <- c('PhraseT','NextWordT','Prediction','Prediction Match','Correct Matches')
-InputFieldsG <- c('PhraseG','NextWordG','Prediction','Prediction Match','Correct Matches')
+InputFieldsT <- c('PhraseT','NextWordT','Prediction','Prediction Match','Correct Matches','tabs')
+InputFieldsG <- c('PhraseG','NextWordG','Prediction','Prediction Match','Correct Matches','tabs')
 
 saveData <- function(data)
 {
