@@ -153,6 +153,15 @@ shinyApp(ui = fluidPage(
         (
             'Phrase and Prediction History',value='History'
             ,br()
+            ,'This shows the most recent phrases that you typed, each correct next word'
+            ,'you chose, and the value that the helper model predicted. You can choose how'
+            ,'many recent phrases to show. The default is 10. You can find older phrases'
+            ,'by searching or by paging.'
+            ,br(),br()
+            ,'This also marks correct and incorrect predictions with TRUE or FALSE and'
+            ,'keeps a running count of the correct predictions. Finally, it records the'
+            ,'writing style mode used for each prediction.'
+            ,br(),br()
             ,DT::dataTableOutput('responses')#, width = 300)
         ) # tabPanel - DT
     ) ), # tabsetPanel fluidpage
