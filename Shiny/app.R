@@ -61,7 +61,14 @@ FieldToDatum = function(input, FieldName)
     }
     else if (FieldName == 'Correct Matches')
     {
-        CumulativeCorrect
+            if (exists('CumulativeCorrect'))
+            {
+                CumulativeCorrect
+            }
+            else
+            {
+                0
+            }
     }
     else
     {
