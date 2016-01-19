@@ -86,17 +86,17 @@ shinyApp(ui = fluidPage(
             'Documentation',value='Doc'
             ,titlePanel('Application Documentation and Background')
             ,br()
-            ,'This application helps authors who are stuck for an idea for the next word.'
+            ,'This application helps authors who are stuck for an idea for the next word in a phrase.'
             ,br(),br()
             ,'There are two modes. Each provides help for a distinct writing style.'
-            ,'The first mode helps users of'
+            ,'The first mode (Tweet Helper) helps users of'
             ,'Twitter compose their Tweets.'
-            ,'The second mode helps with longer and more formal pieces of writing.'
+            ,'The second mode (General Writing Helper) helps with longer and more formal pieces of writing.'
             ,'Each mode is available on its own tab. The user can go back and forth as needed.'
             ,br(),br()
             ,'The application also keeps track of everything the author writes, each'
             ,'predicted next word, and each actual word chosen by the user. That'
-            ,'information is on the last tab.'
+            ,'information is on the last tab (Phrase and Prediction History).'
             ,br(),br()
             ,'To get started, pick a mode from the tab bar, above.'
             ,'Starting writing a phrase in the indicated box. When stuck for a word,'
@@ -105,7 +105,7 @@ shinyApp(ui = fluidPage(
             ,'When you no longer need a suggestion for your next word, press the Close button.'
             ,br(),br()
             ,'This application was developed as part of the Johns Hopkins University'
-            ,'Data Science Specialiation. For more info: '
+            ,'Data Science Specialization For more info: '
             ,tags$a(href='https://www.coursera.org/specializations/jhu-data-science','JHU Data Science'),'.'
             ,br(),br()
             ,'Thanks to Hans Christensen of HC Corpora for the data (via Coursera:'
@@ -160,7 +160,7 @@ shinyApp(ui = fluidPage(
         (
             'Phrase and Prediction History',value='History'
             ,br()
-            ,'This shows the most recent phrases that you typed, each correct next word'
+            ,'This table shows the most recent phrases that you typed, each correct next word'
             ,'you chose, and the value that the helper model predicted. You can choose how'
             ,'many recent phrases to show. The default is 10. You can find older phrases'
             ,'by searching or by paging.'

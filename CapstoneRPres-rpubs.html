@@ -764,11 +764,11 @@ hljs.initHighlightingOnLoad();
 
 </section>
 <section data-transition="linear" data-transition-speed="default">
-<h3>The Predicition Algorithm</h3>
+<h3>The Prediction Algorithm</h3>
 <div class="slideContent" >
-<p>This application uses a model known as Stupid Backoff. That is introduced in section 4 of Brants et. al.&#39;s paper <a href="http://www.aclweb.org/anthology/D07-1090.pdf">http://www.aclweb.org/anthology/D07-1090.pdf</a> where it is noted that, despite the name, the model performs well if given enough appropriate training data.</p>
+<p>This application uses a model known as Stupid Backoff. That model is introduced in section 4 of Brants et al.&#39;s paper <a href="http://www.aclweb.org/anthology/D07-1090.pdf">http://www.aclweb.org/anthology/D07-1090.pdf</a> where it is noted that, despite the name, the model performs well if given enough appropriate training data.</p>
 
-<p>Stupid Backoff is a specific language model of the ngram family. The model is trained by constructing ngrams (1-4 in this case) from the corpus. Predictions are easily computed using maximum-likelihood estimation when a matching ngram exists. Stupid Backoff allows the model to handle words and phrases that were not in the training corpus. Per the referenced paper, there is a backoff parameter, called alpha (but called lambda in other sources) that is not needed by this application since we are always predicting 1 word and not ranking a series of predictions.</p>
+<p>Stupid Backoff is a specific language model of the ngram family. The model is trained by constructing ngrams (n = 1-4 here) from the corpus. Predictions are easily computed using maximum-likelihood estimation when a matching ngram exists. Stupid Backoff allows the model to handle words and phrases not in the training corpus. Brants et al. described a backoff parameter, alpha (lambda in other sources). That parameter is not needed here since we are always predicting 1 word and not ranking a series of predictions.</p>
 
 </div>
 
@@ -776,11 +776,11 @@ hljs.initHighlightingOnLoad();
 <section data-transition="linear" data-transition-speed="default">
 <h3>The Application</h3>
 <div class="slideContent" >
-<p>This application helps authors who are typing a phrase and find themselves stuck for an idea for the next word. There are two modes. Each mode provides help for a distinct writing style. The first mode helps users of Twitter compose their Tweets. The second mode helps with longer and more formal pieces of writing. Each mode is available on its own tab. The user can go back and forth as needed.</p>
+<p>This application helps authors who are typing a phrase and need an idea for the next word. There are two modes  for distinct writing styles. The first mode helps Twitter users compose their Tweets. The second mode helps with longer and more formal pieces of writing. Each mode is available on its own tab. The user can go back and forth as needed.</p>
 
-<p>The application also keeps track of everything the author writes, each predicted next word, and each actual word chosen by the user. That information is on the last tab.</p>
+<p>The application keeps track of everything the author writes, each predicted next word, and each word chosen by the user. That information is on the last tab.</p>
 
-<p>To get started, pick a mode from the tab bar. Starting writing a phrase in the indicated box. When stuck for a word, use the Predict button to get a suggestion. You can then either accept that or enter a better word. When happy with the word, press the Accept button. When you no longer need a suggestion for your next word, press the Close button.</p>
+<p>To get started, pick a mode from the tab bar and  start writing a phrase in the indicated box. Use the Predict button to get a suggestion for the next word in your phrase. You can then either accept that or enter a better word. When satisfied, press the Accept button. When finished, press the Close button.</p>
 
 </div>
 
@@ -788,11 +788,11 @@ hljs.initHighlightingOnLoad();
 <section data-transition="linear" data-transition-speed="default">
 <h3>Try It</h3>
 <div class="slideContent" >
-<p>This application is deployed to the web curtesdy of R Studio and ShinyApps.io. Try it here: <a href="https://wathughes.shinyapps.io/Capstone/">https://wathughes.shinyapps.io/Capstone/</a> and let me know what you think.</p>
+<p>This application is deployed to the web courtesy of R Studio and ShinyApps.io. Try it here: <a href="https://wathughes.shinyapps.io/Capstone/">https://wathughes.shinyapps.io/Capstone/</a> and let me know what you think.</p>
 
-<p>Note that the size of the ngram models were severely limited to accomadate the RAM limits of the free hosting at ShinyApps.io.</p>
+<p>Note that the size of the ngram models were severely limited to accommodate the RAM limits of the free hosting at ShinyApps.io.</p>
 
-<p>This application was developed as part of the Johns Hopkins University Data Science Specialiation. For more info: <a href="https://www.coursera.org/specializations/jhu-data-science/">https://www.coursera.org/specializations/jhu-data-science/</a>.</p>
+<p>This application was developed as part of the Johns Hopkins University Data Science Specialization For more info: <a href="https://www.coursera.org/specializations/jhu-data-science/">https://www.coursera.org/specializations/jhu-data-science/</a>.</p>
 
 <p>Thanks to Hans Christensen of HC Corpora for the data (via Coursera:
 <a href="https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip">https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip</a>) used to train the models that drive the predictions. For more information about this data: <a href="http://www.corpora.heliohost.org/">http://www.corpora.heliohost.org/</a>.</p>
@@ -806,10 +806,13 @@ hljs.initHighlightingOnLoad();
 <p>If time had permitted, these would have been my next steps:</p>
 
 <ul>
-<li>Implment more writing style modes by training against appropriate style-specific corpus sources</li>
-<li>Improve the models:</li>
+<li>Implement more writing style modes by training against appropriate style-specific corpus sources</li>
+<li>Improve the models:
+
+<ul>
 <li>LSTM models have been shown to perform better for this purpose than the implemented ngram model</li>
 <li>More info on LSTM models: <a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">http://colah.github.io/posts/2015-08-Understanding-LSTMs/</a></li>
+</ul></li>
 <li>Implement part of speech tagging</li>
 <li>More info: <a href="http://www.martinschweinberger.de/blog/part-of-speech-tagging-with-r/">http://www.martinschweinberger.de/blog/part-of-speech-tagging-with-r/</a></li>
 <li>Focus group test the modes to pick one to convert from Shiny to a tablet/mobile application</li>
