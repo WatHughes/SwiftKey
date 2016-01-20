@@ -196,3 +196,21 @@ plot(BlogsD, max.words=MaxWords,colors=brewer.pal(6,'Dark2'),scale=c(8,.5))
 plot(NewsD, max.words=MaxWords,colors=brewer.pal(6,'Dark2'),scale=c(8,.5))
 plot(TwitterD, max.words=MaxWords,colors=brewer.pal(6,'Dark2'),scale=c(8,.5))
 dev.off()
+
+head(sort(table(sapply(tokenize(head(TwitterC$documents$texts,2500000)),function(x) x[1])),decreasing=T),20)
+#      I      "    I'm     RT Thanks    The      i   Just    You     My     If     We  Happy     So
+# 178194  48305  34945  34903  34864  34179  22268  22196  20899  19909  19798  17583  17562  16574
+#    you   It's thanks   What  Thank   Good
+#  16380  16168  15717  15428  13542  13248
+
+head(sort(table(sapply(tokenize(head(NewsC$documents$texts,2500000)),function(x) x[1])),decreasing=T),20)
+#      "    The     In    But      A     He     It    And     As    For      I   When     On   This
+# 139601 115813  24066  19951  18586  11676   8301   7964   7504   7266   6859   6529   6422   6328
+#     If     At  After   That   It's      -
+#   6082   5956   5746   5279   5010   4855
+
+head(sort(table(sapply(tokenize(head(BlogsC$documents$texts,2500000)),function(x) x[1])),decreasing=T),20)
+#     I   The     "  This    So   And    In    We    It   But     A    As    My     -     1    If
+# 68959 55493 32940 17410 16880 15183 14701 12275 11431 11022 10360  9221  9185  8959  8902  8426
+#  When   I'm  What There
+#  7794  7133  6858  6601
