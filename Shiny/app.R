@@ -3,6 +3,7 @@ F# Heavily adapted from shiny.rstudio.com/articles/persistent-data-storage.html
 require(shiny)
 require(DT)
 require(shinyBS)
+require(quanteda)
 
 # Define the fields we want to display in the DataTable:
 DisplayFields <- c('Phrase','Next Word','Prediction','Match?','Match Count','Mode')
@@ -10,9 +11,9 @@ DisplayFields <- c('Phrase','Next Word','Prediction','Match?','Match Count','Mod
 InputFieldsT <- c('PhraseT','NextWordT','Prediction','Prediction Match','Correct Matches','tabs')
 InputFieldsG <- c('PhraseG','NextWordG','Prediction','Prediction Match','Correct Matches','tabs')
 
-saveData <- function(data)
+saveData = function(data)
 {
-    data <- as.data.frame(t(data))
+    data = as.data.frame(t(data))
     colnames(data) = DisplayFields
     if (exists('responses'))
     {
@@ -24,13 +25,39 @@ saveData <- function(data)
     }
 }
 
-loadData <- function()
+loadData = function()
 {
     if (exists('responses'))
     {
         responses
     }
 }
+
+GetTweetPrediction = function(NewPhrase)
+{
+    tokens = tokenize(NewPhrase)
+    if (length(tokens[[1]]) > 0)
+    {
+        return('am')
+    }
+    else
+    {
+        return('I')
+    }
+} # GetTweetPrediction
+
+GetGeneralPrediction = function(NewPhrase)
+{
+    tokens = tokenize(NewPhrase)
+    if (length(tokens[[1]]) > 0)
+    {
+        return('cat')
+    }
+    else
+    {
+        return('The')
+    }
+} # GetGeneralPrediction
 
 # This returns the correct value for each field in the next row of the DataTable.
 FieldToDatum = function(input, FieldName)
@@ -192,7 +219,7 @@ shinyApp(ui = fluidPage(
                 saveData(formDataT())
                 NewPhrase = paste0(input[['PhraseT']],' ',ActualWord)
                 updateTextInput(session,'PhraseT',value=NewPhrase)
-                PredictedWord <<- 'xyzzy2'
+                PredictedWord <<- GetTweetPrediction(NewPhrase)
                 updateTextInput(session,'NextWordT',value=PredictedWord)
             }
         )
@@ -203,7 +230,7 @@ shinyApp(ui = fluidPage(
                 saveData(formDataG())
                 NewPhrase = paste0(input[['PhraseG']],' ',ActualWord)
                 updateTextInput(session,'PhraseG',value=NewPhrase)
-                PredictedWord <<- 'xyzzy2'
+                PredictedWord <<- GetGeneralPrediction(NewPhrase)
                 updateTextInput(session,'NextWordG',value=PredictedWord)
             }
         )
@@ -211,14 +238,14 @@ shinyApp(ui = fluidPage(
         observeEvent(
             input$predictT
             ,{
-                PredictedWord <<- 'xyzzy1'
+                PredictedWord <<- GetTweetPrediction(input[['PhraseT']])
                 updateTextInput(session,'NextWordT',value=PredictedWord)
             }
         )
         observeEvent(
             input$predictG
             ,{
-                PredictedWord <<- 'xyzzy1'
+                PredictedWord <<- GetGeneralPrediction(input[['PhraseG']])
                 updateTextInput(session,'NextWordG',value=PredictedWord)
             }
         )
