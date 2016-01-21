@@ -340,8 +340,6 @@ save(BNCD3,file='../data/Rdata/BNCD3.rda')
 str(BNCD3)
 BNCU3=colSums(BNCD3)
 str(BNCU3)
-#  Named num [1:52238160] 1 1 1 1 7 3 2 1 1 1 ...
-#  - attr(*, "names")= chr [1:52238160] "in_the_years_thereafter" "the_years_thereafter_most" "years_thereafter_most_of" "thereafter_most_of_the" ...
 save(BNCU3,file='../data/Rdata/BNCU3.rda')
 BNCU3Top5p=head(sort(BNCU3,decreasing=T),length(BNCU3)*.05)
 head(BNCU3Top5p)
@@ -354,3 +352,21 @@ BNCU3TopHp=BNCU3Top1p[1:round(length(BNCU3Top1p)/2,0)]
 head(BNCU3TopHp)
 tail(BNCU3TopHp)
 save(BNCU3TopHp,file='../data/Rdata/BNCU3TopHp.rda')
+
+save(BNCD2,file='../data/Rdata/BNCD2.rda')
+str(BNCD2)
+BNCU2=colSums(BNCD2)
+str(BNCU2)
+save(BNCU2,file='../data/Rdata/BNCU2.rda')
+BNCU2Top5p=head(sort(BNCU2,decreasing=T),length(BNCU2)*.05)
+head(BNCU2Top5p)
+tail(BNCU2Top5p)
+BNCU2Top1p=head(sort(BNCU2,decreasing=T),length(BNCU2)*.01)
+head(BNCU2Top1p)
+tail(BNCU2Top1p)
+save(BNCU2Top1p,file='../data/Rdata/BNCU2Top1p.rda')
+BNCU2TopHp=BNCU2Top1p[1:round(length(BNCU2Top1p)/2,0)]
+head(BNCU2TopHp)
+tail(BNCU2TopHp)
+save(BNCU2TopHp,file='../data/Rdata/BNCU2TopHp.rda')
+
