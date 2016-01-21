@@ -58,6 +58,9 @@ if (hostname == 'AJ')
 invisible(LoadTextFile('en_US.blogsU.txt',EnUsDir,'Blogs',SampleSize,verbose=Verbose))
 invisible(LoadTextFile('en_US.newsU.txt',EnUsDir,'News',SampleSize,verbose=Verbose))
 invisible(LoadTextFile('en_US.twitterU.txt',EnUsDir,'Twitter',SampleSize,verbose=Verbose))
+save(Blogs,file='../data/Rdata/Blogs.rda')
+save(News,file='../data/Rdata/News.rda')
+save(Twitter,file='../data/Rdata/Twitter.rda')
 
 table(Encoding(Blogs))
 table(Encoding(News))
@@ -85,6 +88,9 @@ TwitterC=corpus(Twitter)
 # TwitterT = tokenize(TwitterC)
 tokenInfoT=summary(TwitterC)
 TwitterD = dfm(TwitterC)
+
+BNC = corpus(append(Blogs,News))
+BNCD4 = dfm(BNC,ngrams=4)
 
 BlogsD4 = dfm(BlogsC,ngrams=4)
 NewsD4 = dfm(NewsC,ngrams=4)
@@ -214,3 +220,108 @@ head(sort(table(sapply(tokenize(head(BlogsC$documents$texts,2500000)),function(x
 # 68959 55493 32940 17410 16880 15183 14701 12275 11431 11022 10360  9221  9185  8959  8902  8426
 #  When   I'm  What There
 #  7794  7133  6858  6601
+
+save(TwitterD4,file='../data/Rdata/TwitterD4.rda')
+str(TwitterD4)
+TwitterU4=colSums(TwitterD4)
+str(TwitterU4)
+#  Named num [1:18242385] 5 1 1 12 3343 ...
+#  - attr(*, "names")= chr [1:18242385] "how_are_you_btw" "are_you_btw_thanks" "you_btw_thanks_for" "btw_thanks_for_the" ..
+save(TwitterU4,file='../data/Rdata/TwitterU4.rda')
+TwitterU4Top5p=head(sort(TwitterU4,decreasing=T),length(TwitterU4)*.05)
+head(TwitterU4Top5p)
+tail(TwitterU4Top5p)
+TwitterU4Top1p=head(sort(TwitterU4,decreasing=T),length(TwitterU4)*.01)
+head(TwitterU4Top1p)
+# thanks_for_the_follow     thanks_for_the_rt     thank_you_for_the     can't_wait_to_see
+#                  6269                  3343                  3051                  2704
+#     thank_you_so_much        is_going_to_be
+#                  2308                  2282
+tail(TwitterU4Top1p)
+#        it_down_a_bit are_going_to_release   now_i_realize_that       out_i_might_be
+#                    5                    5                    5                    5
+#  forever_in_my_heart  better_or_for_worse
+#                    5                    5
+save(TwitterU4Top1p,file='../data/Rdata/TwitterU4Top1p.rda')
+
+save(NewsD4,file='../data/Rdata/NewsD4.rda')
+str(NewsD4)
+NewsU4=colSums(NewsD4)
+str(NewsU4)
+#  Named num [1:25409131] 1 1 1 1 1 1 1 3 1 1 ...
+#  - attr(*, "names")= chr [1:25409131] "he_wasn't_home_alone" "wasn't_home_alone_apparently" "the_st_louis_plant" "st_louis_plant_had" ...
+save(NewsU4,file='../data/Rdata/NewsU4.rda')
+NewsU4Top5p=head(sort(NewsU4,decreasing=T),length(NewsU4)*.05)
+head(NewsU4Top5p)
+tail(NewsU4Top5p)
+NewsU4Top1p=head(sort(NewsU4,decreasing=T),length(NewsU4)*.01)
+head(NewsU4Top1p)
+#       the_end_of_the   for_the_first_time        at_the_end_of      the_rest_of_the
+#                 2904                 2603                 2583                 2199
+#  said_in_a_statement in_the_united_states
+#                 1780                 1778
+tail(NewsU4Top1p)
+# there's_something_about_that               what_my_job_is    two_sources_familiar_with
+#                            5                            5                            5
+#        not_yet_available_but          bothered_by_much_of    citizens_united_v_federal
+#                            5                            5                            5
+save(NewsU4Top1p,file='../data/Rdata/NewsU4Top1p.rda')
+
+save(BlogsD4,file='../data/Rdata/BlogsD4.rda')
+str(BlogsD4)
+BlogsU4=colSums(BlogsD4)
+str(BlogsU4)
+#  Named num [1:28394580] 1 1 1 1 4 1 1 1 1 1 ...
+#  - attr(*, "names")= chr [1:28394580] "in_the_years_thereafter" "the_years_thereafter_most" "years_thereafter_most_of" "thereafter_most_of_the" ...
+save(BlogsU4,file='../data/Rdata/BlogsU4.rda')
+BlogsU4Top5p=head(sort(BlogsU4,decreasing=T),length(BlogsU4)*.05)
+head(BlogsU4Top5p)
+tail(BlogsU4Top5p)
+BlogsU4Top1p=head(sort(BlogsU4,decreasing=T),length(BlogsU4)*.01)
+head(BlogsU4Top1p)
+#   the_end_of_the  the_rest_of_the    at_the_end_of at_the_same_time when_it_comes_to
+#             3358             3054             2910             2257             2007
+#    to_be_able_to
+#             1887
+tail(BlogsU4Top1p)
+# will_be_sponsored_by    the_world_of_film   but_i_believe_it's    crack_in_the_wall
+#                    5                    5                    5                    5
+#     a_little_off_and     because_i_say_so
+#                    5                    5
+save(BlogsU4Top1p,file='../data/Rdata/BlogsU4Top1p.rda')
+
+save(BNCD4,file='../data/Rdata/BNCD4.rda')
+str(BNCD4)
+BNCU4=colSums(BNCD4)
+str(BNCU4)
+#  Named num [1:52238160] 1 1 1 1 7 3 2 1 1 1 ...
+#  - attr(*, "names")= chr [1:52238160] "in_the_years_thereafter" "the_years_thereafter_most" "years_thereafter_most_of" "thereafter_most_of_the" ...
+save(BNCU4,file='../data/Rdata/BNCU4.rda')
+BNCU4Top5p=head(sort(BNCU4,decreasing=T),length(BNCU4)*.05)
+head(BNCU4Top5p)
+tail(BNCU4Top5p)
+BNCU4Top1p=head(sort(BNCU4,decreasing=T),length(BNCU4)*.01)
+head(BNCU4Top1p)
+#     the_end_of_the      at_the_end_of    the_rest_of_the for_the_first_time   at_the_same_time
+#               6262               5493               5253               4472               3952
+#    one_of_the_most
+#               3622
+tail(BNCU4Top1p)
+#  because_i_find_the     him_he_can't_do praying_in_the_holy    the_mercy_of_our    well_in_both_the
+#                   5                   5                   5                   5                   5
+#  instead_of_all_the
+#                   5
+save(BNCU4Top1p,file='../data/Rdata/BNCU4Top1p.rda')
+
+BNCU4TopHp=BNCU4Top1p[1:round(length(BNCU4Top1p)/2,0)]
+head(BNCU4TopHp)
+#     the_end_of_the      at_the_end_of    the_rest_of_the for_the_first_time   at_the_same_time
+#               6262               5493               5253               4472               3952
+#    one_of_the_most
+#               3622
+tail(BNCU4TopHp)
+#    me_by_my_friend   i_was_heading_to     this_is_from_a more_about_what_it parking_lot_it_was
+#                  8                  8                  8                  8                  8
+#    bit_and_then_we
+#                  8
+save(BNCU4TopHp,file='../data/Rdata/BNCU4TopHp.rda')
