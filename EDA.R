@@ -96,6 +96,16 @@ BlogsD4 = dfm(BlogsC,ngrams=4)
 NewsD4 = dfm(NewsC,ngrams=4)
 TwitterD4 = dfm(TwitterC,ngrams=4)
 
+BNCD3 = dfm(BNC,ngrams=3)
+BlogsD3 = dfm(BlogsC,ngrams=3)
+NewsD3 = dfm(NewsC,ngrams=3)
+TwitterD3 = dfm(TwitterC,ngrams=3)
+
+BNCD2 = dfm(BNC,ngrams=2)
+BlogsD2 = dfm(BlogsC,ngrams=2)
+NewsD2 = dfm(NewsC,ngrams=2)
+TwitterD2 = dfm(TwitterC,ngrams=2)
+
 # TwitterT1=tokenize(TwitterC)
 # TwitterD1234 = dfm(TwitterC,ngrams=1:4)
 # str(TwitterD)
@@ -325,3 +335,22 @@ tail(BNCU4TopHp)
 #    bit_and_then_we
 #                  8
 save(BNCU4TopHp,file='../data/Rdata/BNCU4TopHp.rda')
+
+save(BNCD3,file='../data/Rdata/BNCD3.rda')
+str(BNCD3)
+BNCU3=colSums(BNCD3)
+str(BNCU3)
+#  Named num [1:52238160] 1 1 1 1 7 3 2 1 1 1 ...
+#  - attr(*, "names")= chr [1:52238160] "in_the_years_thereafter" "the_years_thereafter_most" "years_thereafter_most_of" "thereafter_most_of_the" ...
+save(BNCU3,file='../data/Rdata/BNCU3.rda')
+BNCU3Top5p=head(sort(BNCU3,decreasing=T),length(BNCU3)*.05)
+head(BNCU3Top5p)
+tail(BNCU3Top5p)
+BNCU3Top1p=head(sort(BNCU3,decreasing=T),length(BNCU3)*.01)
+head(BNCU3Top1p)
+tail(BNCU3Top1p)
+save(BNCU3Top1p,file='../data/Rdata/BNCU3Top1p.rda')
+BNCU3TopHp=BNCU3Top1p[1:round(length(BNCU3Top1p)/2,0)]
+head(BNCU3TopHp)
+tail(BNCU3TopHp)
+save(BNCU3TopHp,file='../data/Rdata/BNCU3TopHp.rda')
