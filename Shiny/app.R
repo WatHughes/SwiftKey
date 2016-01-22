@@ -14,10 +14,10 @@ hostname = system('hostname', intern=T)
 
 if (hostname == 'AJ')
 {
-    DataDir = paste0('../data/Rdata')
+    DataDir = paste0('../../data/Rdata')
 } else if (hostname == 'VM-EP-3')
 {
-    DataDir = paste0('../data/Rdata')
+    DataDir = paste0('../../data/Rdata')
 } else
 {
     DataDir = '.'
@@ -69,17 +69,35 @@ dfmStyleTokenize = function(NewPhrase)
     ret
 } # dfmStyleTokenize
 
+GetPredictedWord = function(ngrams,pattern)
+{
+    predictions = head(ngrams[grep(pattern,attr(ngrams,'names'))],4) # ngrams are presorted
+    print(predictions)
+    if (length(predictions) <= 0)
+    {
+        return(NULL)
+    }
+    print(predictions)
+    ngram = attr(predictions[1],'names')
+    ngramTokens = strsplit(ngram,'_',fixed=T)[[1]]
+    ngramTokens[length(ngramTokens)]
+} # GetPredictedWord
+
 GetTweetPrediction = function(NewPhrase)
 {
     tokens = dfmStyleTokenize(NewPhrase)
-    if (length(tokens) > 0)
+    tokenCount = length(tokens)
+    if (tokenCount >= 1)
     {
-        return('am')
+        ngrams = CondLoadDataTable('TwitterU2Top1p')
+        pattern = paste0('^',tokens[tokenCount],'_')
+        ret = GetPredictedWord(ngrams,pattern)
+        if (length(ret) > 0)
+        {
+            return(ret) # Otherwise fall through
+        }
     }
-    else
-    {
-        return('I')
-    }
+    return('I')
 } # GetTweetPrediction
 
 GetGeneralPrediction = function(NewPhrase)
@@ -100,7 +118,13 @@ GetGeneralPrediction = function(NewPhrase)
     }
     if (tokenCount >= 1)
     {
-        return('cat')
+        ngrams = CondLoadDataTable('BNCU2Top1p')
+        pattern = paste0('^',tokens[tokenCount],'_')
+        ret = GetPredictedWord(ngrams,pattern)
+        if (length(ret) > 0)
+        {
+            return(ret) # Otherwise fall through
+        }
     }
     return('The')
 } # GetGeneralPrediction
