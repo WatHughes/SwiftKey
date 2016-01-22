@@ -370,3 +370,38 @@ head(BNCU2TopHp)
 tail(BNCU2TopHp)
 save(BNCU2TopHp,file='../data/Rdata/BNCU2TopHp.rda')
 
+save(TwitterD3,file='../data/Rdata/TwitterD3.rda')
+str(TwitterD3)
+TwitterU3=colSums(TwitterD3)
+str(TwitterU3)
+save(TwitterU3,file='../data/Rdata/TwitterU3.rda')
+TwitterU3Top5p=head(sort(TwitterU3,decreasing=T),length(TwitterU3)*.05)
+head(TwitterU3Top5p)
+tail(TwitterU3Top5p)
+TwitterU3Top1p=head(sort(TwitterU3,decreasing=T),length(TwitterU3)*.01)
+head(TwitterU3Top1p)
+tail(TwitterU3Top1p)
+save(TwitterU3Top1p,file='../data/Rdata/TwitterU3Top1p.rda')
+
+save(TwitterD2,file='../data/Rdata/TwitterD2.rda')
+str(TwitterD2)
+TwitterU2=colSums(TwitterD2)
+str(TwitterU2)
+save(TwitterU2,file='../data/Rdata/TwitterU2.rda')
+TwitterU2Top5p=head(sort(TwitterU2,decreasing=T),length(TwitterU2)*.05)
+head(TwitterU2Top5p)
+#  in_the for_the  of_the  on_the   to_be  to_the
+#   78326   73948   56868   48457   46986   43397
+tail(TwitterU2Top5p)
+#  but_nothin  as_interim and_premium    the_tarp  haha_crazy come_kidnap
+#           9           9           9           9           9           9
+save(TwitterU2Top5p,file='../data/Rdata/TwitterU2Top5p.rda')
+TwitterU2Top1p=head(sort(TwitterU2,decreasing=T),length(TwitterU2)*.01)
+head(TwitterU2Top1p)
+tail(TwitterU2Top1p)
+#      then_try    it_bothers   lakers_lose    making_any           a_v tomorrow_that
+#            50            50            50            50            50            50
+save(TwitterU2Top1p,file='../data/Rdata/TwitterU2Top1p.rda')
+
+save(TwitterU2Top5p,file='../data/Rdata/TwitterU2Top5p.rda')
+save(BNCU2Top5p,file='../data/Rdata/BNCU2Top5p.rda')
