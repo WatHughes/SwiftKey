@@ -49,7 +49,7 @@ saveData = function(data)
     {
         responses <<- data
     }
-}
+} # saveData
 
 loadData = function()
 {
@@ -57,12 +57,22 @@ loadData = function()
     {
         responses
     }
-}
+} # loadData
+
+# This is a wrapper for quanteda::tokenize with settings to match the defaults for dfm
+# plus standardized debugging output.
+
+dfmStyleTokenize = function(NewPhrase)
+{
+    ret = tokenize(toLower(NewPhrase),removeNumbers=T,removePunct=T,removeSeparators=T)[[1]]
+    print(paste(ret,collapse='_'))
+    ret
+} # dfmStyleTokenize
 
 GetTweetPrediction = function(NewPhrase)
 {
-    tokens = tokenize(NewPhrase)
-    if (length(tokens[[1]]) > 0)
+    tokens = dfmStyleTokenize(NewPhrase)
+    if (length(tokens) > 0)
     {
         return('am')
     }
@@ -74,15 +84,25 @@ GetTweetPrediction = function(NewPhrase)
 
 GetGeneralPrediction = function(NewPhrase)
 {
-    tokens = tokenize(NewPhrase)
-    if (length(tokens[[1]]) > 0)
+    tokens = dfmStyleTokenize(NewPhrase)
+    tokenCount = length(tokens)
+    if (tokenCount >= 4)
+    {
+        return('hat')
+    }
+    if (tokenCount >= 3)
+    {
+        return('the')
+    }
+    if (tokenCount >= 2)
+    {
+        return('in')
+    }
+    if (tokenCount >= 1)
     {
         return('cat')
     }
-    else
-    {
-        return('The')
-    }
+    return('The')
 } # GetGeneralPrediction
 
 # This returns the correct value for each field in the next row of the DataTable.
@@ -129,7 +149,6 @@ FieldToDatum = function(input, FieldName)
     }
 } # FieldToDatum
 
-# Shiny app.
 shinyApp(ui = fluidPage(
     tabsetPanel
     (
@@ -308,5 +327,5 @@ shinyApp(ui = fluidPage(
 
         output$CurrentPhraseT = renderText(input[['PhraseT']])
         output$CurrentPhraseG = renderText(input[['PhraseG']])
-    }
-)
+    } # server
+) # shinyApp
