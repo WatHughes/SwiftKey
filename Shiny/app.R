@@ -4,6 +4,32 @@ require(shiny)
 require(DT)
 require(shinyBS)
 require(quanteda)
+require(rdrop2) # Dropbox wrapper
+
+source('CondLoadDataTable.R')
+
+# Globals are first computed or just plain set to parameterize behavior.
+
+hostname = system('hostname', intern=T)
+
+if (hostname == 'AJ')
+{
+    DataDir = paste0('../data/Rdata')
+} else if (hostname == 'VM-EP-3')
+{
+    DataDir = paste0('../data/Rdata')
+} else
+{
+    DataDir = '.'
+}
+CompressedRDataDir <<- DataDir
+
+# If we don't have the data locally, check DropBox using these globals.
+
+DropBoxDataDir = '/Data'
+DropBoxCompressedRDataDir <<- DropBoxDataDir
+# This works around an apparent limitation of publishing to shinyapps.io:
+if (!file.exists('.httr-oauth') & file.exists('httr-oauth')) {file.rename('httr-oauth','.httr-oauth')}
 
 # Define the fields we want to display in the DataTable:
 DisplayFields <- c('Phrase','Next Word','Prediction','Match?','Match Count','Mode')
