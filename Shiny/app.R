@@ -31,6 +31,15 @@ DropBoxCompressedRDataDir <<- DropBoxDataDir
 # This works around an apparent limitation of publishing to shinyapps.io:
 if (!file.exists('.httr-oauth') & file.exists('httr-oauth')) {file.rename('httr-oauth','.httr-oauth')}
 
+# ngram datafile names without the '.rda' so these become variable names, too.
+
+Twitter2 = 'TwitterU2Top5p' # 1,638,148 bytes
+Twitter3 = 'TwitterU3Top1p' #   904,496
+Twitter4 = 'TwitterU4Top1p' # 1,424,192
+BlogsNews2 = 'BNCU2Top5p' # 3,661,672
+BlogsNews3 = 'BNCU3Top1p' # 2,466,662
+BlogsNews4 = 'BNCU4Top1p' # 4,385,745
+
 # Define the fields we want to display in the DataTable:
 DisplayFields <- c('Phrase','Next Word','Prediction','Match?','Match Count','Mode')
 # Define the fields we want to save from input:
@@ -71,13 +80,13 @@ dfmStyleTokenize = function(NewPhrase)
 
 GetPredictedWord = function(ngrams,pattern)
 {
+    print(pattern)
     predictions = head(ngrams[grep(pattern,attr(ngrams,'names'))],4) # ngrams are presorted
     print(predictions)
     if (length(predictions) <= 0)
     {
         return(NULL)
     }
-    print(predictions)
     ngram = attr(predictions[1],'names')
     ngramTokens = strsplit(ngram,'_',fixed=T)[[1]]
     ngramTokens[length(ngramTokens)]
@@ -87,46 +96,76 @@ GetTweetPrediction = function(NewPhrase)
 {
     tokens = dfmStyleTokenize(NewPhrase)
     tokenCount = length(tokens)
-    if (tokenCount >= 1)
+    if (tokenCount >= 3)
     {
-        ngrams = CondLoadDataTable('TwitterU2Top1p')
-        pattern = paste0('^',tokens[tokenCount],'_')
+        ngrams = CondLoadDataTable(Twitter4)
+        pattern = paste0('^',paste0(tokens[(tokenCount-2):tokenCount],collapse='_'),'_')
         ret = GetPredictedWord(ngrams,pattern)
         if (length(ret) > 0)
         {
             return(ret) # Otherwise fall through
         }
     }
-    return('I')
+    if (tokenCount >= 2)
+    {
+        ngrams = CondLoadDataTable(Twitter3)
+        pattern = paste0('^',paste0(tokens[(tokenCount-1):tokenCount],collapse='_'),'_')
+        ret = GetPredictedWord(ngrams,pattern)
+        if (length(ret) > 0)
+        {
+            return(ret) # Otherwise fall through
+        }
+    }
+    if (tokenCount >= 1)
+    {
+        ngrams = CondLoadDataTable(Twitter2)
+        pattern = paste0('^',tokens[tokenCount],'_')
+        ret = GetPredictedWord(ngrams,pattern)
+        if (length(ret) > 0)
+        {
+            return(ret)
+        }
+        return('that') # Most frequent unigram of fairly general applicability
+    }
+    return('I') # Empty phrase prediction, from the Twitter unigrams.
 } # GetTweetPrediction
 
 GetGeneralPrediction = function(NewPhrase)
 {
     tokens = dfmStyleTokenize(NewPhrase)
     tokenCount = length(tokens)
-    if (tokenCount >= 4)
-    {
-        return('hat')
-    }
     if (tokenCount >= 3)
     {
-        return('the')
-    }
-    if (tokenCount >= 2)
-    {
-        return('in')
-    }
-    if (tokenCount >= 1)
-    {
-        ngrams = CondLoadDataTable('BNCU2Top1p')
-        pattern = paste0('^',tokens[tokenCount],'_')
+        ngrams = CondLoadDataTable(BlogsNews4)
+        pattern = paste0('^',paste0(tokens[(tokenCount-2):tokenCount],collapse='_'),'_')
         ret = GetPredictedWord(ngrams,pattern)
         if (length(ret) > 0)
         {
             return(ret) # Otherwise fall through
         }
     }
-    return('The')
+    if (tokenCount >= 2)
+    {
+        ngrams = CondLoadDataTable(BlogsNews3)
+        pattern = paste0('^',paste0(tokens[(tokenCount-1):tokenCount],collapse='_'),'_')
+        ret = GetPredictedWord(ngrams,pattern)
+        if (length(ret) > 0)
+        {
+            return(ret) # Otherwise fall through
+        }
+    }
+    if (tokenCount >= 1)
+    {
+        ngrams = CondLoadDataTable(BlogsNews2)
+        pattern = paste0('^',tokens[tokenCount],'_')
+        ret = GetPredictedWord(ngrams,pattern)
+        if (length(ret) > 0)
+        {
+            return(ret) # Otherwise fall through
+        }
+        return('that') # Most frequent unigram of fairly general applicability
+    }
+    return('The') # Empty phrase prediction, from the Blog and News unigrams.
 } # GetGeneralPrediction
 
 # This returns the correct value for each field in the next row of the DataTable.
