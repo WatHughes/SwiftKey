@@ -266,7 +266,7 @@ shinyApp(ui = fluidPage(
                 ,tags$p(strong('If needed correct the predicted word. Press Accept to add
                                the displayed word to the phrase. When finished adding to
                                the phrase, press Close.'))
-                ,textInput('NextWordT','The next word will be:','the')
+                ,textInput('NextWordT','The next word will be:','....calculating....')
                 ,actionButton('acceptT','Accept Displayed Word')
                 )
         ), # tabPanel - Tweet
@@ -287,7 +287,7 @@ shinyApp(ui = fluidPage(
                 ,tags$p(strong('If needed correct the predicted word. Press Accept to add
                                the displayed word to the phrase. When finished adding to
                                the phrase, press Close.'))
-                ,textInput('NextWordG','The next word will be:','the')
+                ,textInput('NextWordG','The next word will be:','..calculating..')
                 ,actionButton('acceptG','Accept Displayed Word')
                 )
         ), # tabPanel - General
@@ -361,9 +361,23 @@ shinyApp(ui = fluidPage(
         observeEvent(
             input$tabs
             ,{
-                # Insert code to lode selected model
                 CurrentTab <<- input$tabs
                 # print(CurrentTab)
+                # The following code assumes the user will 'pause' a moment to consider
+                # the layout and content of each tab the first time each is visited.
+                if (CurrentTab == 'Doc')
+                {
+                    invisible(CondLoadDataTable(Twitter3)) # So the user doesn't have to wait for this later.
+                    invisible(CondLoadDataTable(BlogsNews3)) # So the user doesn't have to wait for this later.
+                }
+                if (CurrentTab == 'Tweet')
+                {
+                    invisible(CondLoadDataTable(Twitter4)) # So the user doesn't have to wait for this later.
+                }
+                if (CurrentTab == 'General')
+                {
+                    invisible(CondLoadDataTable(BlogsNews4)) # So the user doesn't have to wait for this later.
+                }
             }
         )
 
