@@ -310,6 +310,10 @@ save(BNCU4,file='../data/Rdata/BNCU4.rda')
 BNCU4Top5p=head(sort(BNCU4,decreasing=T),length(BNCU4)*.05)
 head(BNCU4Top5p)
 tail(BNCU4Top5p)
+#  in_washington_d.c_before washington_d.c_before_the      is_entering_its_last
+#                         2                         2                         2
+#       swam_across_a_river      before_he_was_picked     he's_been_blind_since
+#                         2                         2                         2
 BNCU4Top1p=head(sort(BNCU4,decreasing=T),length(BNCU4)*.01)
 head(BNCU4Top1p)
 #     the_end_of_the      at_the_end_of    the_rest_of_the for_the_first_time   at_the_same_time
@@ -405,3 +409,5 @@ save(TwitterU2Top1p,file='../data/Rdata/TwitterU2Top1p.rda')
 
 save(TwitterU2Top5p,file='../data/Rdata/TwitterU2Top5p.rda')
 save(BNCU2Top5p,file='../data/Rdata/BNCU2Top5p.rda')
+save(BNCU4Top5p,file='../data/Rdata/BNCU4Top5p.rda')
+
