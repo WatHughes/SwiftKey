@@ -1,13 +1,13 @@
-Elementary Text Prediction
+PhraseMaster
 ========================================================
 A JHU Data Science Specialization Capstone Project
-
+Featuring Elementary Text Prediction
 
 Wat Hughes
 
 wat.hughes@gmail.com
 
-January 15, 2016
+January 23, 2016
 
 The Prediction Algorithm
 ========================================================
@@ -19,7 +19,7 @@ Stupid Backoff is a specific language model of the ngram family. The model is tr
 The Application
 ========================================================
 
-This application helps authors who are typing a phrase and need an idea for the next word. There are two modes  for distinct writing styles. The first mode helps Twitter users compose their Tweets. The second mode helps with longer and more formal pieces of writing. Each mode is available on its own tab. The user can go back and forth as needed.
+The PhraseMaster application helps authors who are typing a phrase and need an idea for the next word. There are two modes for distinct writing styles. The first mode helps Twitter users compose their Tweets. The second mode helps with longer and more formal pieces of writing. Each mode is available on its own tab. The user can go back and forth as needed.
 
 The application keeps track of everything the author writes, each predicted next word, and each word chosen by the user. That information is on the last tab.
 
@@ -29,14 +29,13 @@ To get started, pick a mode from the tab bar and  start writing a phrase in the 
 Try It
 ========================================================
 
-This application is deployed to the web courtesy of R Studio and ShinyApps.io. Try it here: https://wathughes.shinyapps.io/Capstone/ and let me know what you think.
+This application is deployed to the web courtesy of R Studio and ShinyApps.io. Try it here: https://wathughes.shinyapps.io/Capstone/.
 
-Note that the size of the ngram models were severely limited to accommodate the RAM limits of the free hosting at ShinyApps.io.
+Note that the sizes of the ngram models were severely limited to accommodate the RAM limits of the free hosting at ShinyApps.io and to permit speedy response to the user.
 
 This application was developed as part of the Johns Hopkins University Data Science Specialization For more info: https://www.coursera.org/specializations/jhu-data-science/.
 
-Thanks to Hans Christensen of HC Corpora for the data (via Coursera:
-https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip) used to train the models that drive the predictions. For more information about this data: http://www.corpora.heliohost.org/.
+Thanks to Hans Christensen of HC Corpora for the data: https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip This was used to train the models that drive the predictions. For more information about this data: http://www.corpora.heliohost.org/.
 
 Next Steps
 ========================================================
