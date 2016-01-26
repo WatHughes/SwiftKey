@@ -424,36 +424,60 @@ set.seed(17)
 NS = sample(NewsC,10)
 
 > sapply(list(TS,BS,NS),function(S){S$documents})
-      [,1]
+#      [,1]  Tweets
 #  [1,] "Wow! Amazing. What will you bring? We need a pic of your suitcase!"
+# What will you <bring>
 #  [2,] "If you're in town shopping on Black Friday and need a place to stay check us out online @ www.stayinportland.com."
+# If you're in town shopping on Black Friday and <need>
 #  [3,] "Bynum sure behaves like someone who could have used a year or two in college to grow up a little...."
+# someone who could have used a year or <two>
 #  [4,] "Yea, I know. It's too bad that we aren't in Idaho at the correct time! What a shame! :("
+# It's too bad that we aren't <in>
 #  [5,] "are you kidding me?? X games- where shaun white makes gravity non existant"
 #  [6,] "There's always that one person that no matter what they've done to you, you just still can't let them go."
+# There's always that one person <that> no <matter> <what> <they/they've>
 #  [7,] "\"We're going to cut away from Newt Gingrich because we have important news to report.\""
+# We're going to cut away <from>
 #  [8,] "if you don't want to be around someoneorpendtime with them be real about it from the jump don't make plans and stand them up"
+# If you don't <want> <to> <be> <around> <someone>[not someonor]
 #  [9,] "Thanks, Noah. Once a die-hard, always a die-hard."
 # [10,] "Hello KIWW, I would luv to know if you all do business in Asia and if you still engage in sponsoring sports properties?"
-#       [,2]
+# Hello KIWW, I would luv to <know> <if> <you> <all> <do> <business> <in>
+#       [,2] Blogs
 #  [1,] "\"You're breathing fast. Your cheeks are flushed. Your pupils are dilated.\""
+# You're breathing <fast>. Your cheeks are <flushed>. Your pupils <are> <dilated>.
 #  [2,] "Typically, we will run the tests, provide feedback to candidates, and then brief the selection panel on our findings. Where we have effective person specifications, we can advise on the likelihood of each candidate providing the school with the particular characteristics which the post demands."
+# Typically, we will run <the> <tests>, provide feedback <to> <candidates>, <and>
 #  [3,] "This sort of thing could never happen even in your worst nightmares."
+# This sort <of> <thing> <could> <never> <happen> <even> <in> <your> <worst> <nightmare/s>
 #  [4,] "Specific to the dance front, this supposed prowess often comes as a result of having studied with such-and-such and so-and-so. Or with the sheer amount of time one has spent with tango. Neither of which necessarily means anything. One question that I'm sick of hearing when meeting someone new is, \"How long have you been dancing?\" Though it may appear innocuous, it's a question with loaded expectations, and I often get the sense that there is an evaluation being made depending on the response. But everyone knows people who have been dancing for a good amount of time but who still, to put it mildly, kind of suck. Of course, some of these people feel that they've put in the hours and have earned their degree, and become \"teachers\" in some form. Either by actually holding classes, or more informally by instructing people they meet in the milongas and/or prácticas."
+# Speciic to the dance <front>, <this> supposed <prowess> <often> <comes> <as> <a> <result> <of> <having> <studied> <with>
 #  [5,] "\"Santa Claus\" by Throwing Muses (from, Just Can't Get Enough: New Wave Xmas, 1996)"
 #  [6,] "This diversity and openness to different genres is reflected in Aldrei's line-up. Punk band Morðingjarnir perform an adrenaline-fuelled set, which is cut short when the drunk bassist is carried off the stage for exhorting the audience to throw things at him."
+# This diversity and <openness> <to> <different> <genres> <is> <reflected> <in>
 #  [7,] "our new book for the month of may is"
+# our new book for the <month> <of>
 #  [8,] "Upper heaven; grace, now"
 #  [9,] "I enjoyed another great Mother's Day on Sunday! Actually, the entire weekend was great!"
+# I enjoyed another <great> Mother's <Day> <on> <Sunday>!
 # [10,] "We are home now. We arrived 10 days ago from our 4-month-long exchange to India. I think now we are all feeling much better our bodies adjusting slowly to the new time with the 13 1/2 hours difference between home and our last home in Gwalior."
-#       [,3]
+# We are home <now>. We arrived 10 <days> <ago> <from> <our>
+#       [,3] News
 #  [1,] "1/2 cup no-salt, no-sugar, fat-free marinara sauce (such as Pomi)"
 #  [2,] "But for most members of The Church of Jesus Christ of Latter-day Saints, they are the best 20 hours of the year."
+# But for most <members> <of> <The> <Church>
 #  [3,] "The supporting role was an unfamiliar one for Cannon, who was used to leading her team during a four-year varsity basketball career that began when she was a freshman at North Carroll. Cannon did everything for the Mavericks this season, ranking among the top six players in four major categories."
+# The supporting <role> <was> <an> <unfamiliar> <one> <for>
 #  [4,] "When he was 3, the family fled again, this time to New York, after Arab riots and the massacre of Jews in the old Palestine."
+# When he <was> 3, <the> <family> <fled> <again>, <this> <time> <to>
 #  [5,] "\"1906 Earthquake,\" despite its title, teaches us that the fire that followed the quake wreaked as much or more havoc as the seismic event itself. Views that show the city after the smoke finally cleared bring to mind the photo-journalistic record of events such as the destruction of Hiroshima or the carpet-bombing of German cities at the end of World War II."
 #  [6,] "\"Ultimately, because I'm a word-driven songwriter, I need support from people who love language,\" she said."
+# Ultimately, because I'm <a> word-driven <songwriter>, <I> <need> <support> <from> <people> <who> <love> <language>,
 #  [7,] "Thirty-five drop-off locations around the county will be open to the public from 10 a.m. to 2 p.m. People can dispose of all types of medication, no questions asked. Needles will not be accepted."
+# Thirty-five drop-off <locations> <around> <the>
 #  [8,] "Also, the owners are betting the team's fortunes on the field will improve under the leadership of General Manager Sandy Alderson, resulting in increased attendance, sponsorships and luxury-suite sales."
+# Also, the owners <are> <betting> <the> <team's> <fortunes> <on> <the> <field> <will> <improve> <under> <the> <leadership> <of>
 #  [9,] "The colorful turbans are partly inspired by the Fela Kuti Queens — the 27 women in African musician Fela Kuti's entourage to whom he was married at one time. Knowles counts them as style inspirations and credits them with her introduction to African prints. She also name-checks Icelandic singer Björk and Diana Ross as her major fashion influences. Ross \"has been the iconic image of so many decades,\" Knowles says. \"And she's always been able to transform in a non-costumey way. It's effortless and easy.\""
+# The colorful turbans <are> partly <inspired> <by> <the>
 # [10,] "Dr. Paul W. Nelson named program director for the General Surgery Residency Program at St. Vincent Medical Group at St. Vincent Carmel Hospital."
+# Dr. Paul W. Nelson named program director <for> <the>
